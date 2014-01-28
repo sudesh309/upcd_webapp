@@ -1,0 +1,53 @@
+<html>
+    <head> 
+    <title> USB Peripheral Control Device - Web Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    </head>
+    <body> 
+    <header>
+        <h1 class="logo">
+	    <img src="{{ url_for('static', filename='header.png') }}">
+	    </h1>
+    </header>
+    <h1>
+		USB Peripheral Control Device
+		<br> Web Interface
+	</h1>
+    <div class="container">
+	<div class="canvas"> <h2>
+		
+ <div style="float: left; margin-left:10px;">
+	 <p> 
+		 GPIO Peripherals (<a href="addio"><i>Add New</i></a>)</p>
+	 {% for peripheral in descList[0] %}
+	 <p> {{ peripheral }} 
+	 <a href="{{ peripheral }}/on">ON</a> 
+	 <a href="{{ peripheral }}/off">OFF</a>
+	 <a href="{{ peripheral }}/removeio">Remove</a></p>
+	 {% endfor %}
+ </div>
+ 
+ <div style="float: right; margin-right:10px;">
+	 <p> ADC Peripherals</p>
+	 {% for peripheral in descList[1] %}
+	 <p> {{ peripheral }}  1024 <a href="read">Read</a> <a href="removeadc">Remove</a></p>
+	 {% endfor %}
+	 <br>
+	 <p> PWM Peripherals</p>
+	 {% for peripheral in descList[1] %}
+	 <p> {{ peripheral }}  1024 <a href="edit">Edit</a> <a href="removepwm">Remove</a></p>
+	 {% endfor %}
+ </div>
+ 
+ <br style="clear: both" />
+
+		
+		
+		 </div> </div> 
+    
+      <footer>
+		  &copy Copyright 2013 by Ankit Singh, Anmol Sarma, Nishant 
+		  Singh, Prateek Anand and Sudesh Kumar
+      </footer>
+    </body> 
+</html>
