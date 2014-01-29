@@ -4,7 +4,8 @@ from flask import Flask, render_template, redirect
 import subprocess
 
 def ioRemove(peripheral):
-	myList[0].remove(int(peripheral))
+	subprocess.check_output(["./reader", "/dev/USBDev251", "P" + peripheral + "000"])
+	return "P" + peripheral + "000"
 
 def ioOn(peripheral):
 	subprocess.check_output(["./reader", "/dev/USBDev251", "I" + peripheral])
@@ -19,19 +20,18 @@ app = Flask(__name__)
 device = "/dev/USBDev251"
 
 myList = [[0,1,2], [], []]
-ioList = []
-
-for peripheral in myList[0]:
-	if ioProbe(peripheral) != "000":
-		ioList.append(peripheral)
 		
 @app.route("/")
 def root():
-   return render_template('main.html', ioList = ioList, descList = myList)
+	ioList = []
+	for peripheral in myList[0]:
+		if ioProbe(peripheral) != "000":
+			ioList.append(peripheral)
+	return render_template('main.html', ioList = ioList, descList = myList)
 
 @app.route("/<peripheral>/<command>")
 def handler(peripheral, command):
-	if command == "remove":
+	if command == "removeio":
 		ioRemove(peripheral)
 	if command == "on":
 		ioOn(peripheral)
