@@ -1,30 +1,38 @@
 #!/usr/bin/python
 
 from flask import Flask, render_template, redirect
+import subprocess
 
-app = Flask(__name__)
-device = open("/dev/USBDev251", "w+")
-myList = [[0,1,2], [], []]
-
-def removeIO(peripheral):
+def ioRemove(peripheral):
 	myList[0].remove(int(peripheral))
 
 def ioOn(peripheral):
-	device.write("I" + peripheral)
-	device.flush()
+	subprocess.check_output(["./reader", "/dev/USBDev251", "I" + peripheral])
 
 def ioOff(peripheral):
-	device.write("i" + peripheral)
-	device.flush()
+	subprocess.check_output(["./reader", "/dev/USBDev251", "i" + peripheral])
 
+def ioProbe(peripheral):
+	return subprocess.check_output(["./reader", "/dev/USBDev251", "L" + str(peripheral)])
+
+app = Flask(__name__)
+device = "/dev/USBDev251"
+
+myList = [[0,1,2], [], []]
+ioList = []
+
+for peripheral in myList[0]:
+	if ioProbe(peripheral) != "000":
+		ioList.append(peripheral)
+		
 @app.route("/")
 def root():
-   return render_template('main.html', descList = myList)
+   return render_template('main.html', ioList = ioList, descList = myList)
 
 @app.route("/<peripheral>/<command>")
 def handler(peripheral, command):
 	if command == "remove":
-		removeIO(peripheral)
+		ioRemove(peripheral)
 	if command == "on":
 		ioOn(peripheral)
 	if command == "off":
