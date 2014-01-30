@@ -28,17 +28,22 @@ app = Flask(__name__)
 device = "/dev/USBDev251"
 
 myList = [[0,1,2], [], []]
+adcval = 0
 		
 @app.route("/", methods=["GET", "POST"])
 def root():
+	global adcval
 	if request.method == "POST":
 		if request.form['submit'] == "addio":
-			ioAdd()	
+			ioAdd()
+		elif request.form['submit'] == "readadc":
+			adcval = subprocess.check_output(["./reader", "/dev/USBDev251", "T"])
+			
 	ioList = []
 	for peripheral in myList[0]:
-		if ioProbe(peripheral) != "000":
+		if ioProbe(peripheral)[0] != "0":
 			ioList.append(peripheral)
-	return render_template('main.html', ioList = ioList, descList = myList)
+	return render_template('main.html', ioList = ioList, descList = myList, adcval = adcval)
 
 @app.route("/<peripheral>/<command>")
 def handler(peripheral, command):

@@ -65,14 +65,12 @@
  
  <div style="float: right; margin-right:10px;">
 	 <p> ADC Peripherals</p>
-	 {% for peripheral in descList[1] %}
-	 <p> {{ peripheral }}  1024 <a href="read">Read</a> <a href="removeadc">Remove</a></p>
-	 {% endfor %}
-	 <button type="submit" name="submit" value="addadc">Add ADC</button>
+	 <p> {{ adcval }} &#8451</p>
+	 <p><button type="submit" name="submit" value="readadc">Read ADC</button> </p>
 	 <br>
 	 <p> PWM Peripherals</p>
 	 {% for peripheral in descList[1] %}
-	 <p> {{ peripheral }}  1024 <a href="edit">Edit</a> <a href="removepwm">Remove</a></p>
+	 <p> {{ peripheral }}  <a href="edit">Edit</a> <a href="removepwm">Remove</a></p>
 	 {% endfor %}
  </div>
  
