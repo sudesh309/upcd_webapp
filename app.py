@@ -38,6 +38,13 @@ def root():
 			ioAdd()
 		elif request.form['submit'] == "readadc":
 			adcval = subprocess.check_output(["./reader", "/dev/USBDev251", "T"])
+		elif request.form['submit'] == "configpwm":
+			subprocess.check_output(["./reader", "/dev/USBDev251", "A"])
+		elif request.form['submit'] == "incpwm":
+			subprocess.check_output(["./reader", "/dev/USBDev251", "W"])
+		elif request.form['submit'] == "decpwm":
+			subprocess.check_output(["./reader", "/dev/USBDev251", "w"])
+			
 			
 	ioList = []
 	for peripheral in myList[0]:
