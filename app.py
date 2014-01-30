@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 import subprocess
 
 def ioRemove(peripheral):
@@ -16,13 +16,24 @@ def ioOff(peripheral):
 def ioProbe(peripheral):
 	return subprocess.check_output(["./reader", "/dev/USBDev251", "L" + str(peripheral)])
 
+def ioAdd():
+	perinum = request.form["ioperipheral"]
+	port = request.form["ioport"]
+	pin = request.form["iopin"]
+	mode = request.form["imode"]
+	subprocess.check_output(["./reader", "/dev/USBDev251", "P" + perinum + port + pin + mode])
+	
+
 app = Flask(__name__)
 device = "/dev/USBDev251"
 
 myList = [[0,1,2], [], []]
 		
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def root():
+	if request.method == "POST":
+		if request.form['submit'] == "addio":
+			ioAdd()	
 	ioList = []
 	for peripheral in myList[0]:
 		if ioProbe(peripheral) != "000":

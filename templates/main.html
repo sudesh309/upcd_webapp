@@ -17,8 +17,44 @@
 	<div class="canvas"> <h2>
 		
  <div style="float: left; margin-left:10px;">
-	 <p> 
-		 GPIO Peripherals (<a href="addio"><i>Add New</i></a>)</p>
+	 <p> GPIO Peripherals </p>
+	 <p>
+		 <form method="post" action="/">
+			 
+			 <select name="ioperipheral" id="perip">
+				<option value="0"># 0</option>
+				<option value="1"># 1</option>
+				<option value="2"># 2</option>
+			</select>
+			 
+			 <select name="ioport" id="prt">
+				<option value="1">Port A</option>
+				<option value="2">Port B</option>
+				<option value="3">Port C</option>
+				<option value="4">Port D</option>
+				<option value="5">Port E</option>
+				<option value="6">Port F</option>
+			</select>
+			
+			<select name="iopin" id="pn">
+				<option value="0">Pin 0</option>
+				<option value="1">Pin 1</option>
+				<option value="2">Pin 2</option>
+				<option value="3">Pin 3</option>
+				<option value="4">Pin 4</option>
+				<option value="5">Pin 5</option>
+				<option value="6">Pin 6</option>
+				<option value="7">Pin 7</option>
+			</select>
+			
+			<select name="imode" id="md">
+				<option value="1">Out</option>
+				<option value="0">In</option>
+			</select>
+			
+			<button type="submit" name="submit" value="addio">Add I/O</button>
+	 </p>
+		 
 	 {% for peripheral in ioList %}
 	 <p> {{ peripheral }} 
 	 <a href="{{ peripheral }}/on">ON</a> 
@@ -32,6 +68,7 @@
 	 {% for peripheral in descList[1] %}
 	 <p> {{ peripheral }}  1024 <a href="read">Read</a> <a href="removeadc">Remove</a></p>
 	 {% endfor %}
+	 <button type="submit" name="submit" value="addadc">Add ADC</button>
 	 <br>
 	 <p> PWM Peripherals</p>
 	 {% for peripheral in descList[1] %}
